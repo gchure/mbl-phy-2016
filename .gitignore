@@ -1,0 +1,9 @@
+*.fcs*
+*.ipynb_checkpoints
+*.DS_store
+*.swp
+*.tmp
+*.*~
+*.ai
+*.eps
+
