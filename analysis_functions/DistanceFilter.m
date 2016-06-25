@@ -24,7 +24,6 @@ for i=1:(imSize(1) - D)
 	%Approved objects will only have two unique labels
 	if length(uniqueLabels) > 2
  	   approvedLabels = [approvedLabels uniqueLabels];
-	   disp(approvedLabels)
 	end
     end
 end
