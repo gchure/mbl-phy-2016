@@ -1,4 +1,4 @@
-function imSeg = LogSegmentation(im, A)
+function segMask = LogSegmentation(im, A, E)
 %LOGSEGMENTATION Perform Laplacian of Gaussian segmentation algorithm over a
 %field of bacterial cells. 
 % 	imSeg = LOGSEGMENTATION(im) segments im removing objects smaller than
@@ -17,11 +17,8 @@ imEdge = edge(im, 'log');
 %Fill the holes in the edge image.
 imFill = imfill(imEdge, 'holes');
 
-%Remove the small stuff by determing the number of inputs.
-if nargin < 2
-	A = 100;
-end
-imFilt = bwareaopen(imFill, A, 4);
+%Remove the small stuff.
+imFilt = bwareaopen(imFill, 100, 4);
 
 %Dilate the objects by 2px.
 selem = strel('diamond', 1);
@@ -30,6 +27,28 @@ imDil = imdilate(imFilt, selem);
 %Remove objects touching the border and label the output image.
 imSeg = imclearborder(imDil, 4); %Buffer of 4px.
 imSeg = bwlabel(imSeg);
+
+%Extract the region props of the mask.
+props = regionprops(imSeg, 'Area', 'Eccentricity');
+
+%Iterate through each object and apply an area and eccentricity filter.
+areas = [props.Area];
+eccs = [props.Eccentricity];
+approvedAreas = (areas > A(1)) & (areas < A(2));
+approvedEccs = (eccs > E(1)) & (eccs < E(2));
+
+%Find the approved labels
+approvedLabels = find((approvedAreas .* approvedEccs) > 0);
+
+%Generate the final mask.
+segMask = zeros(size(imSeg));
+for i=1:length(approvedLabels)
+	segMask = segMask + (imSeg==approvedLabels(i));
+end
+
+%Relabel the image.
+segMask = bwlabel(segMask > 0);
+
 end
 
 

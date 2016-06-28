@@ -9,7 +9,6 @@ vecSize = size(V);
 for i=1:vecSize(1)
     %Extract each bleach trajectory.
     traj = V(i,:);
-
     %Find the index at which the threshold is met.
     timePoint = find(traj <= T);
     decayVector(i) = timePoint(1);     

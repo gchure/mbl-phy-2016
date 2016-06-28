@@ -4,6 +4,10 @@ function bleachMat = ExtractBleachTrajectories(S, I)
 %	bleachMat = EXTRACTBLEACHTRAJECTORIES(S, I) generates a matrix of
 %	bleaching trajectories of shape numCells by time. These data are
 %	smoothed using a Savitzky-Golay filter and are rescaled from 0 to 1.0.
+matMeans = [];
+se = [ 0, 1, 0;
+       1, 1, 1;
+       0, 1, 0;]; 
 for i=1:length(I)
     %Apply a median filter over all images
     imFilt = medfilt2(I{i});

@@ -29,3 +29,5 @@ D = 0.5 / 0.063;
 f = figure(1);
 p = plot(randn(100000,1), '.');
 FormatAxes(f)
+
+

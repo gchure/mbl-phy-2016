@@ -139,8 +139,4 @@ plt.xlabel('YFP intensity')
 plt.ylabel('ecdf')
 plt.xscale('log')
 
-plt.close('all')
-
-
-
 

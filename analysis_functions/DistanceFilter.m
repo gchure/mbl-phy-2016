@@ -38,6 +38,8 @@ for i=1:max(max(im))
         imFilt = imFilt + (im==i);
     end
 end
+%Relabel and return.
+imFilt = bwlabel(imFilt);
 end
 
 	
